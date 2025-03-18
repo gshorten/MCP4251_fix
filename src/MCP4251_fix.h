@@ -32,11 +32,11 @@
 
 
 
-class MCP4251
+class MCP4251_fix
 {
 public:
   // Constructor
-  MCP4251(uint8_t slaveSelectPin, float pot0ResistanceRmax, float pot0ResistanceRmin, float pot1ResistanceRmax, float pot1ResistanceRmin);
+  MCP4251_fix(uint8_t slaveSelectPin, float pot0ResistanceRmax, float pot0ResistanceRmin, float pot1ResistanceRmax, float pot1ResistanceRmin);
   void begin();
   void DigitalPotWiperIncrement(bool potNum);
   void DigitalPotWiperDecrement(bool potNum);
