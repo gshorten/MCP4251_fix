@@ -2,7 +2,7 @@
 #include <SPI.h>
 
 // Instantiation of object
-MCP4251::MCP4251(uint8_t slaveSelectPin, float pot0ResistanceRmax, float pot0ResistanceRmin, float pot1ResistanceRmax, float pot1ResistanceRmin)
+MCP4251_fix::MCP4251_fix(uint8_t slaveSelectPin, float pot0ResistanceRmax, float pot0ResistanceRmin, float pot1ResistanceRmax, float pot1ResistanceRmin)
 {
     this->_slaveSelectPin = slaveSelectPin;
 
@@ -17,7 +17,7 @@ MCP4251::MCP4251(uint8_t slaveSelectPin, float pot0ResistanceRmax, float pot0Res
     this->_pot1ResistanceRW = pot1ResistanceRmin;
 }
 
-void MCP4251::begin()
+void MCP4251_fix::begin()
 {
     ::pinMode(_slaveSelectPin, OUTPUT);
     ::digitalWrite(_slaveSelectPin, HIGH);
@@ -27,7 +27,7 @@ void MCP4251::begin()
     this->DigitalPotSetWiperMin(1);
 }
 
-void MCP4251::DigitalPotWiperIncrement(bool potNum)
+void MCP4251_fix::DigitalPotWiperIncrement(bool potNum)
 {
     byte cmdByte = B00000000;
     ::digitalWrite(_slaveSelectPin, LOW);
@@ -44,7 +44,7 @@ void MCP4251::DigitalPotWiperIncrement(bool potNum)
     ::digitalWrite(_slaveSelectPin, HIGH);
 }
 
-void MCP4251::DigitalPotWiperDecrement(bool potNum)
+void MCP4251_fix::DigitalPotWiperDecrement(bool potNum)
 {
     byte cmdByte = B00000000;
     ::digitalWrite(_slaveSelectPin, LOW);
@@ -61,7 +61,7 @@ void MCP4251::DigitalPotWiperDecrement(bool potNum)
     ::digitalWrite(_slaveSelectPin, HIGH);
 }
 
-void MCP4251::DigitalPotSetWiperPosition(bool potNum, unsigned int value)
+void MCP4251_fix::DigitalPotSetWiperPosition(bool potNum, unsigned int value)
 {
     byte cmdByte = B00000000;
     byte dataByte = B00000000;
@@ -85,7 +85,7 @@ void MCP4251::DigitalPotSetWiperPosition(bool potNum, unsigned int value)
     ::digitalWrite(_slaveSelectPin, HIGH);
 }
 
-void MCP4251::DigitalPotSetWiperMin(bool potNum)
+void MCP4251_fix::DigitalPotSetWiperMin(bool potNum)
 {
     if (potNum)
         DigitalPotSetWiperPosition(1, 0);
@@ -93,7 +93,7 @@ void MCP4251::DigitalPotSetWiperMin(bool potNum)
         DigitalPotSetWiperPosition(0, 0);
 }
 
-void MCP4251::DigitalPotSetWiperMax(bool potNum)
+void MCP4251_fix::DigitalPotSetWiperMax(bool potNum)
 {
     if (potNum)
         DigitalPotSetWiperPosition(1, 256);
@@ -101,7 +101,7 @@ void MCP4251::DigitalPotSetWiperMax(bool potNum)
         DigitalPotSetWiperPosition(0, 256);
 }
 
-void MCP4251::DigitalPotSetWiperMid(bool potNum)
+void MCP4251_fix::DigitalPotSetWiperMid(bool potNum)
 {
     if (potNum)
         DigitalPotSetWiperPosition(1, 128);
@@ -109,7 +109,7 @@ void MCP4251::DigitalPotSetWiperMid(bool potNum)
         DigitalPotSetWiperPosition(0, 128);
 }
 
-uint16_t MCP4251::DigitalPotReadWiperPosition(bool potNum)
+uint16_t MCP4251_fix::DigitalPotReadWiperPosition(bool potNum)
 {
     byte cmdByte = B00000000;
     byte hByte = B00000000;
@@ -131,7 +131,7 @@ uint16_t MCP4251::DigitalPotReadWiperPosition(bool potNum)
     return ((uint16_t)hByte << 8 | (uint16_t)lByte) & BITMASK_READ_DATA_REGISTER;
 }
 
-uint16_t MCP4251::DigitalPotReadStatusRegister()
+uint16_t MCP4251_fix::DigitalPotReadStatusRegister()
 {
     byte cmdByte = B00000000;
     byte hByte = B00000000;
@@ -144,7 +144,7 @@ uint16_t MCP4251::DigitalPotReadStatusRegister()
     return ((uint16_t)hByte << 8 | (uint16_t)lByte) & BITMASK_READ_DATA_REGISTER;
 }
 
-uint16_t MCP4251::DigitalPotReadTconRegister()
+uint16_t MCP4251_fix::DigitalPotReadTconRegister()
 {
     byte cmdByte = B00000000;
     byte hByte = B00000000;
@@ -157,7 +157,7 @@ uint16_t MCP4251::DigitalPotReadTconRegister()
     return ((uint16_t)hByte << 8 | (uint16_t)lByte) & BITMASK_READ_DATA_REGISTER;
 }
 
-void MCP4251::DigitalPotWriteTconRegister(unsigned int value)
+void MCP4251_fix::DigitalPotWriteTconRegister(unsigned int value)
 {
     byte cmdByte = B00000000;
     byte dataByte = B00000000;
@@ -172,7 +172,7 @@ void MCP4251::DigitalPotWriteTconRegister(unsigned int value)
     ::digitalWrite(_slaveSelectPin, HIGH);
 }
 
-void MCP4251::DigitalPotStartup(bool potNum)
+void MCP4251_fix::DigitalPotStartup(bool potNum)
 {
     unsigned int tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -187,7 +187,7 @@ void MCP4251::DigitalPotStartup(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotShutdown(bool potNum)
+void MCP4251_fix::DigitalPotShutdown(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -202,7 +202,7 @@ void MCP4251::DigitalPotShutdown(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotTerminalBConnect(bool potNum)
+void MCP4251_fix::DigitalPotTerminalBConnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -217,7 +217,7 @@ void MCP4251::DigitalPotTerminalBConnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotTerminalBDisconnect(bool potNum)
+void MCP4251_fix::DigitalPotTerminalBDisconnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -232,7 +232,7 @@ void MCP4251::DigitalPotTerminalBDisconnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotTerminalAConnect(bool potNum)
+void MCP4251_fix::DigitalPotTerminalAConnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -247,7 +247,7 @@ void MCP4251::DigitalPotTerminalAConnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotTerminalADisconnect(bool potNum)
+void MCP4251_fix::DigitalPotTerminalADisconnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -262,7 +262,7 @@ void MCP4251::DigitalPotTerminalADisconnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotWiperConnect(bool potNum)
+void MCP4251_fix::DigitalPotWiperConnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -277,7 +277,7 @@ void MCP4251::DigitalPotWiperConnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotWiperDisconnect(bool potNum)
+void MCP4251_fix::DigitalPotWiperDisconnect(bool potNum)
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -292,7 +292,7 @@ void MCP4251::DigitalPotWiperDisconnect(bool potNum)
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-void MCP4251::DigitalPotInitTcon()
+void MCP4251_fix::DigitalPotInitTcon()
 {
     uint16_t tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
@@ -304,7 +304,7 @@ void MCP4251::DigitalPotInitTcon()
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-uint16_t MCP4251::DigitalPotResistanceToPosition(bool potNum, float resistance)
+uint16_t MCP4251+fix::DigitalPotResistanceToPosition(bool potNum, float resistance)
 {
     if (potNum)
     {
@@ -326,7 +326,7 @@ uint16_t MCP4251::DigitalPotResistanceToPosition(bool potNum, float resistance)
     }
 }
 
-float MCP4251::DigitalPotPositionToResistance(bool potNum, unsigned int position)
+float MCP4251_fix::DigitalPotPositionToResistance(bool potNum, unsigned int position)
 {
     if (potNum)
     {
