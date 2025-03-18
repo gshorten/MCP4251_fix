@@ -40,7 +40,7 @@ public:
   void begin();
   void DigitalPotWiperIncrement(bool potNum);
   void DigitalPotWiperDecrement(bool potNum);
-  void DigitalPotSetWiperPosition(bool potNum, uint16_t value); // Need confirmation if it is working
+  void DigitalPotSetWiperPosition(bool potNum, unsigned int value); // Need confirmation if it is working
   void DigitalPotSetWiperMin(bool potNum);
   void DigitalPotSetWiperMax(bool potNum);
   void DigitalPotSetWiperMid(bool potNum);
@@ -66,7 +66,7 @@ public:
   void DigitalPotInitTcon();
 
   uint16_t DigitalPotResistanceToPosition(bool potNum, float resistance);
-  float DigitalPotPositionToResistance(bool potNum, uint16_t position);
+  float DigitalPotPositionToResistance(bool potNum, unsigned int position);
 
 private:
   uint8_t _slaveSelectPin;
