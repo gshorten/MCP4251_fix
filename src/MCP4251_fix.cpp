@@ -1,4 +1,4 @@
-#include "MCP4251_fiz.h"
+#include "MCP4251_fix.h"
 #include <SPI.h>
 
 // Instantiation of object
