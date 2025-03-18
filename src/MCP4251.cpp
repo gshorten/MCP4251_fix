@@ -157,7 +157,7 @@ uint16_t MCP4251::DigitalPotReadTconRegister()
     return ((uint16_t)hByte << 8 | (uint16_t)lByte) & BITMASK_READ_DATA_REGISTER;
 }
 
-void MCP4251::DigitalPotWriteTconRegister(uint16_t value)
+void MCP4251::DigitalPotWriteTconRegister(unsigned int value)
 {
     byte cmdByte = B00000000;
     byte dataByte = B00000000;
@@ -174,7 +174,7 @@ void MCP4251::DigitalPotWriteTconRegister(uint16_t value)
 
 void MCP4251::DigitalPotStartup(bool potNum)
 {
-    uint16_t tconData = this->DigitalPotReadTconRegister();
+    unsigned int tconData = this->DigitalPotReadTconRegister();
     byte hByte = (uint8_t)tconData >> 8;
     byte lByte = (uint8_t)tconData & 0xff;
 
@@ -183,7 +183,7 @@ void MCP4251::DigitalPotStartup(bool potNum)
     else
         lByte = lByte | BITMASK_POT0_STARTUP;
 
-    tconData = (uint16_t)hByte << 8 | (uint16_t)lByte;
+    tconData = (unsigned int)hByte << 8 | (unsigned int)lByte;
     this->DigitalPotWriteTconRegister(tconData);
 }
 
@@ -326,7 +326,7 @@ uint16_t MCP4251::DigitalPotResistanceToPosition(bool potNum, float resistance)
     }
 }
 
-float MCP4251::DigitalPotPositionToResistance(bool potNum, uint16_t position)
+float MCP4251::DigitalPotPositionToResistance(bool potNum, unsigned int position)
 {
     if (potNum)
     {
