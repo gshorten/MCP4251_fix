@@ -49,7 +49,7 @@ public:
   uint16_t DigitalPotReadTconRegister();
   uint16_t DigitalPotReadStatusRegister();
 
-  void DigitalPotWriteTconRegister(uint16_t value);
+  void DigitalPotWriteTconRegister(unsigned int value);
 
   void DigitalPotStartup(bool potNum);
   void DigitalPotShutdown(bool potNum);
