@@ -304,7 +304,7 @@ void MCP4251_fix::DigitalPotInitTcon()
     this->DigitalPotWriteTconRegister(tconData);
 }
 
-uint16_t MCP4251+fix::DigitalPotResistanceToPosition(bool potNum, float resistance)
+uint16_t MCP4251_fix::DigitalPotResistanceToPosition(bool potNum, float resistance)
 {
     if (potNum)
     {
